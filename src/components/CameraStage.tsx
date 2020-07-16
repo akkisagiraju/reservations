@@ -5,36 +5,22 @@ import { KonvaEventObject } from 'konva/types/Node';
 import { Vector2d } from 'konva/types/types';
 import { Slot, StageItem } from '../types/types';
 import useImage from '../hooks/useImage';
+import { Container } from '../styles/componentStyles';
+import { generateNewSlot } from '../utils/helpers';
 
-const WIDTH = window.innerWidth * 0.2;
-const HEIGHT = window.innerHeight * 0.2;
+interface CameraStageProps {
+  imageUrl: string;
+  width: number;
+  height: number;
+  slots: Slot[];
+}
 
-const generateNewSlot = (
-  slotID: string,
-  status: string,
-  points: number[]
-): Slot => ({
-  slotID,
-  status,
-  points
-});
-
-const intialSlots: Slot[] = [
-  generateNewSlot(`${Math.random() * Math.random()}`, 'Occupied', [
-    100,
-    200,
-    300,
-    200,
-    300,
-    300,
-    100,
-    300,
-    100,
-    200
-  ])
-];
-
-const CameraStage: React.FC = () => {
+const CameraStage: React.FC<CameraStageProps> = ({
+  imageUrl,
+  width,
+  height,
+  slots
+}) => {
   const [points, setPoints] = React.useState<number[]>([]);
   const [curMousePosition, setCurMousePosition] = React.useState<number[]>([
     0,
@@ -43,22 +29,26 @@ const CameraStage: React.FC = () => {
   const [isDrawingFinished, setIsDrawingFinished] = React.useState<boolean>(
     false
   );
-  const [localSlotList, setLocalSlotList] = React.useState<Slot[]>(intialSlots);
+  const [localSlotList, setLocalSlotList] = React.useState<Slot[]>(slots);
   const [selectedSlot, setSelectedSlot] = React.useState<Slot>();
-
-  const [image] = useImage(
-    'https://images.unsplash.com/photo-1505624198937-c704aff72608?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=650&q=80'
-  );
-
+  const [image] = useImage(imageUrl);
   const imageElement = image as HTMLImageElement;
+
+  if (!localSlotList) {
+    return (
+      <Container style={{ border: '1px solid black', width, height }}>
+        <p>No slot data available</p>
+      </Container>
+    );
+  }
 
   const getMousePosition = (stage: StageItem): number[] => {
     const pointerPosition = stage.getPointerPosition() as Vector2d;
     return [pointerPosition.x, pointerPosition.y];
   };
 
-  const flattenedPoints = (p = points): number[] => {
-    return p
+  const flattenedPoints = (): number[] => {
+    return points
       .concat(isDrawingFinished ? [] : curMousePosition)
       .reduce((a: number[], b) => a.concat(b), []);
   };
@@ -116,13 +106,10 @@ const CameraStage: React.FC = () => {
     }
   };
 
-  const handlePolygonClick = async (event: KonvaEventObject<MouseEvent>) => {
-    // Do nothing if it is not a right click
-    if (event.evt.button !== 2) {
-      return;
-    }
-
-    // Remove target slot if it as right click
+  const handlePolygonRightClick = async (
+    event: KonvaEventObject<MouseEvent>
+  ) => {
+    event.evt.preventDefault();
     console.log('Right click');
     const targetSlotID = event.currentTarget.attrs.id;
     const newSlotsAfterRemoval: Slot[] = localSlotList.filter(
@@ -134,9 +121,9 @@ const CameraStage: React.FC = () => {
 
   return (
     <Stage
-      width={WIDTH}
-      height={HEIGHT}
-      style={{ border: '1px solid black', width: WIDTH, height: HEIGHT }}
+      width={width}
+      height={height}
+      style={{ border: '1px solid black', width, height }}
       onMouseDown={plotNewPoint}
       onMouseMove={handleMouseMove}
       onContextMenu={(e) => e.evt.preventDefault()}
@@ -152,7 +139,6 @@ const CameraStage: React.FC = () => {
           closed={isDrawingFinished}
           fill="blue"
           draggable
-          onClick={handlePolygonClick}
           onDragStart={() => setIsDrawingFinished(true)}
           onDragMove={() => setIsDrawingFinished(true)}
           onDragEnd={() => setIsDrawingFinished(true)}
@@ -164,7 +150,7 @@ const CameraStage: React.FC = () => {
             points={slot.points}
             stroke={slot.status === 'Available' ? 'green' : 'red'}
             closed
-            onClick={handlePolygonClick}
+            onContextMenu={handlePolygonRightClick}
           />
         ))}
       </Layer>
