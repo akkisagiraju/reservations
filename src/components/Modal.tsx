@@ -16,6 +16,7 @@ const Modal = styled.div`
   right: 20vw;
   bottom: 10vh;
   z-index: 5;
+  border-radius: 8px;
   max-height: calc(100% - 200px);
   display: flex;
   flex-direction: column;
