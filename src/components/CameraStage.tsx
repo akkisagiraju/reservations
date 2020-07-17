@@ -124,9 +124,11 @@ const CameraStage: React.FC<CameraStageProps> = ({
       width={width}
       height={height}
       style={{ border: '1px solid black', width, height }}
-      onMouseDown={plotNewPoint}
+      // onMouseDown={plotNewPoint}
       onMouseMove={handleMouseMove}
-      onContextMenu={(e) => e.evt.preventDefault()}
+      onContextMenu={(e: KonvaEventObject<MouseEvent>) =>
+        e.evt.preventDefault()
+      }
     >
       <Layer>
         <Image image={imageElement} />

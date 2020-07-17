@@ -24,3 +24,11 @@ export const Grid = styled.div`
     grid-template-columns: auto auto auto;
   }
 `;
+
+export const CamContainer = styled(Container)`
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;

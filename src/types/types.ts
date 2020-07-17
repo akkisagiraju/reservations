@@ -10,3 +10,11 @@ export interface Slot {
 export interface StageItem {
   getPointerPosition: () => Vector2d;
 }
+
+export interface CameraData {
+  id: string | number;
+  height: number;
+  width: number;
+  imageUrl: string;
+  slots: Slot[];
+}
