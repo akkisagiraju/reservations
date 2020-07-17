@@ -97,6 +97,7 @@ const Home: React.FC = () => {
                     <CameraStage
                       width={800}
                       height={450}
+                      isPreview={activeCamera === cam.id}
                       imageUrl={cam.imageUrl}
                       slots={cam.slots}
                     />

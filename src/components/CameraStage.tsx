@@ -13,13 +13,15 @@ interface CameraStageProps {
   width: number;
   height: number;
   slots: Slot[];
+  isPreview?: boolean;
 }
 
 const CameraStage: React.FC<CameraStageProps> = ({
   imageUrl,
   width,
   height,
-  slots
+  slots,
+  isPreview
 }) => {
   const [points, setPoints] = React.useState<number[]>([]);
   const [curMousePosition, setCurMousePosition] = React.useState<number[]>([
@@ -60,11 +62,7 @@ const CameraStage: React.FC<CameraStageProps> = ({
   };
 
   const canDraw = (event: KonvaEventObject<MouseEvent>): boolean => {
-    if (isDrawingFinished) {
-      console.log('isDrawingFinished', isDrawingFinished);
-      return false;
-    }
-    if (event.evt.button === 2) {
+    if (!isPreview || isDrawingFinished || event.evt.button === 2) {
       return false;
     }
     return true;
@@ -124,7 +122,7 @@ const CameraStage: React.FC<CameraStageProps> = ({
       width={width}
       height={height}
       style={{ border: '1px solid black', width, height }}
-      // onMouseDown={plotNewPoint}
+      onMouseDown={plotNewPoint}
       onMouseMove={handleMouseMove}
       onContextMenu={(e: KonvaEventObject<MouseEvent>) =>
         e.evt.preventDefault()
