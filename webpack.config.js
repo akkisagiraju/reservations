@@ -36,7 +36,7 @@ const config = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.tsx', '.ts'],
+    extensions: ['.mjs', '.js', '.jsx', '.tsx', '.ts'],
     alias: {
       'react-dom': '@hot-loader/react-dom'
     }
@@ -52,6 +52,7 @@ const config = {
     }),
     new CleanWebpackPlugin()
   ],
+  devtool: 'source-map',
   optimization: {
     runtimeChunk: 'single',
     splitChunks: {
