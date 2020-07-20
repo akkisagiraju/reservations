@@ -1,11 +1,11 @@
 import React from 'react';
-// import { hot } from 'react-hot-loader/root';
+import { hot } from 'react-hot-loader/root';
 import Routes from './routes/Routes';
 
 const App: React.FC = () => {
   return <Routes />;
 };
 
-export default App;
+// export default App;
 
-// export default hot(App);
+export default hot(App);

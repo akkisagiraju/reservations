@@ -32,3 +32,9 @@ export const CamContainer = styled(Container)`
     transform: scale(1.05);
   }
 `;
+
+export const TempCamContainer = styled(CamContainer)`
+  width: 400px;
+  border: 1px solid black;
+  height: 225px;
+`;

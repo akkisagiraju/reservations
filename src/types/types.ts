@@ -18,3 +18,19 @@ export interface CameraData {
   imageUrl: string;
   slots: Slot[];
 }
+
+type Status = 0 | 1;
+
+export interface Chair {
+  chairID: string;
+  chair_name: string;
+  is_active: boolean;
+  details: ChairDetail[];
+}
+
+export interface ChairDetail {
+  from: string;
+  to: string;
+  reserved: Status;
+  status: Status;
+}

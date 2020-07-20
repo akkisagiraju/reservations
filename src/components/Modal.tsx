@@ -28,9 +28,11 @@ const Modal = styled.div`
 
 const ModalContent = styled.div`
   overflow: auto;
-  min-height: 200px;
-  padding: 0px 40px;
-  padding-bottom: 80px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ModalShadow = styled.div`

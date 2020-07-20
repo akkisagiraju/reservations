@@ -1,9 +1,18 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-import { Container, Grid, CamContainer } from '../styles/componentStyles';
+import { API } from 'aws-amplify';
+import { useHistory } from 'react-router-dom';
+import { Container, Grid, TempCamContainer } from '../styles/componentStyles';
 import CameraStage from '../components/CameraStage';
 import { generateNewSlot } from '../utils/helpers';
 import ModalContainer from '../components/Modal';
+
+interface CameraObjectFromAPI {
+  camera_name: string;
+  cameraID: string;
+  macID: string;
+  is_active: boolean;
+}
 
 const Home: React.FC = () => {
   // const [fetchedSlotList, setFetchedSlotList] = React.useState<Slot[]>();
@@ -11,6 +20,20 @@ const Home: React.FC = () => {
   const [activeCamera, setActiveCamera] = React.useState<
     number | string | null
   >(null);
+  const [fetchedCameraList, setFetchedCameraList] = React.useState<
+    CameraObjectFromAPI[]
+  >([]);
+
+  const history = useHistory();
+
+  const getCameraList = React.useCallback(async (): Promise<void> => {
+    const response = await API.get('Beta', '/camera/getapi/camera-list', {});
+    setFetchedCameraList(response);
+  }, []);
+
+  React.useEffect(() => {
+    getCameraList();
+  }, [getCameraList]);
 
   const cameraData = [
     {
@@ -71,7 +94,7 @@ const Home: React.FC = () => {
       <Container column>
         <h1>Reservations</h1>
         <Grid>
-          {cameraData.map((cam) => (
+          {/* {cameraData.map((cam) => (
             <CamContainer
               key={cam.id}
               onClick={() => selectCameraToPreview(cam.id)}
@@ -85,6 +108,21 @@ const Home: React.FC = () => {
                 slots={cam.slots}
               />
             </CamContainer>
+          ))} */}
+          {fetchedCameraList.map((cam) => (
+            <TempCamContainer
+              onClick={() =>
+                history.push({
+                  pathname: '/camera',
+                  state: { id: cam.cameraID, name: cam.camera_name }
+                })
+              }
+              role="button"
+              aria-hidden="true"
+              key={cam.cameraID}
+            >
+              {cam.camera_name}
+            </TempCamContainer>
           ))}
         </Grid>
       </Container>
