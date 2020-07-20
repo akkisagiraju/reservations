@@ -11,10 +11,10 @@ const Modal = styled.div`
   background-color: white;
   position: fixed;
   justify-self: center;
-  top: 10vh;
-  left: 20vw;
-  right: 20vw;
-  bottom: 10vh;
+  top: 30vh;
+  left: 35vw;
+  right: 35vw;
+  bottom: 30vh;
   z-index: 5;
   border-radius: 8px;
   max-height: calc(100% - 200px);
@@ -31,7 +31,7 @@ const ModalContent = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 `;
 

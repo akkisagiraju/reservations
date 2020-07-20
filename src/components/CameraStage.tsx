@@ -13,7 +13,8 @@ interface CameraStageProps {
   width: number;
   height: number;
   slots: Slot[];
-  isPreview?: boolean;
+  areSlotsDrawable?: boolean;
+  openModal: () => void;
 }
 
 const CameraStage: React.FC<CameraStageProps> = ({
@@ -21,7 +22,8 @@ const CameraStage: React.FC<CameraStageProps> = ({
   width,
   height,
   slots,
-  isPreview
+  areSlotsDrawable = false,
+  openModal
 }) => {
   const [points, setPoints] = React.useState<number[]>([]);
   const [curMousePosition, setCurMousePosition] = React.useState<number[]>([
@@ -44,6 +46,10 @@ const CameraStage: React.FC<CameraStageProps> = ({
     );
   }
 
+  const openSlotBookingModal = (): void => {
+    openModal();
+  };
+
   const getMousePosition = (stage: StageItem): number[] => {
     const pointerPosition = stage.getPointerPosition() as Vector2d;
     return [pointerPosition.x, pointerPosition.y];
@@ -62,7 +68,7 @@ const CameraStage: React.FC<CameraStageProps> = ({
   };
 
   const canDraw = (event: KonvaEventObject<MouseEvent>): boolean => {
-    if (!isPreview || isDrawingFinished || event.evt.button === 2) {
+    if (!areSlotsDrawable || isDrawingFinished || event.evt.button === 2) {
       return false;
     }
     return true;
@@ -104,17 +110,15 @@ const CameraStage: React.FC<CameraStageProps> = ({
     }
   };
 
-  const handlePolygonRightClick = async (
-    event: KonvaEventObject<MouseEvent>
-  ) => {
+  const handlePolygonClick = async (event: KonvaEventObject<MouseEvent>) => {
     event.evt.preventDefault();
-    console.log('Right click');
-    const targetSlotID = event.currentTarget.attrs.id;
-    const newSlotsAfterRemoval: Slot[] = localSlotList.filter(
-      (slot) => slot.slotID !== targetSlotID
-    );
-    setLocalSlotList(newSlotsAfterRemoval);
-    // updateSlotData(updatedSlot); // This has to be an update API request
+    openSlotBookingModal();
+    // const targetSlotID = event.currentTarget.attrs.id;
+    // const newSlotsAfterRemoval: Slot[] = localSlotList.filter(
+    //   (slot) => slot.slotID !== targetSlotID
+    // );
+    // setLocalSlotList(newSlotsAfterRemoval);
+    // // updateSlotData(updatedSlot); // This has to be an update API request
   };
 
   return (
@@ -150,7 +154,7 @@ const CameraStage: React.FC<CameraStageProps> = ({
             points={slot.points}
             stroke={slot.status === 'Available' ? 'green' : 'red'}
             closed
-            onContextMenu={handlePolygonRightClick}
+            onClick={handlePolygonClick}
           />
         ))}
       </Layer>

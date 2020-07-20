@@ -12,7 +12,7 @@ export const Grid = styled.div`
   width: 80%;
   grid-template-columns: auto;
   grid-template-rows: repeat(auto-fill, 1fr);
-  grid-gap: 24px;
+  grid-gap: 24px 0px;
   justify-items: center;
   justify-content: center;
 
@@ -25,16 +25,17 @@ export const Grid = styled.div`
   }
 `;
 
-export const CamContainer = styled(Container)`
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    transform: scale(1.05);
-  }
+export const TempCamContainer = styled(Container)`
+  width: 800px;
+  border: 1px solid black;
+  height: 450px;
 `;
 
-export const TempCamContainer = styled(CamContainer)`
-  width: 400px;
-  border: 1px solid black;
-  height: 225px;
+export const Button = styled.button`
+  background-color: #8e44ad;
+  color: #fff;
+  padding: 4px 12px;
+  border: 1px solid #8e44ad;
+  border-radius: 4px;
+  box-shadow: 0px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
 `;
