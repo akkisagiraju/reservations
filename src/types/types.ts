@@ -4,7 +4,8 @@ import { Vector2d } from 'konva/types/types';
 export interface Slot {
   slotID: string;
   points: number[];
-  status: string;
+  is_reserved: Status;
+  is_occupied: Status;
 }
 
 export interface StageItem {
@@ -19,12 +20,16 @@ export interface CameraData {
   slots: Slot[];
 }
 
-type Status = 0 | 1;
+export type Status = 0 | 1;
 
 export interface Chair {
   chairID: string;
   chair_name: string;
+  points: number[];
+  is_reserved: Status;
+  is_occupied: Status;
   is_active: boolean;
+
   details: ChairDetail[];
 }
 

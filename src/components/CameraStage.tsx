@@ -81,11 +81,7 @@ const CameraStage: React.FC<CameraStageProps> = ({
   const polygonFinished = (mousePosition: number[]): void => {
     const newPoints = points.concat(mousePosition, points[0]);
     const newLocalSlotList = localSlotList.concat(
-      generateNewSlot(
-        `${Math.random() * Math.random()}`,
-        'Available',
-        newPoints
-      )
+      generateNewSlot(`${Math.random() * Math.random()}`, 0, 0, newPoints)
     );
     setLocalSlotList(newLocalSlotList);
     // updateSlotData(updatedSlot); // This is an API put request
@@ -93,7 +89,8 @@ const CameraStage: React.FC<CameraStageProps> = ({
     setSelectedSlot({
       slotID: '',
       points: [],
-      status: ''
+      is_reserved: 0,
+      is_occupied: 0
     });
   };
 
@@ -147,12 +144,12 @@ const CameraStage: React.FC<CameraStageProps> = ({
           onDragMove={() => setIsDrawingFinished(true)}
           onDragEnd={() => setIsDrawingFinished(true)}
         />
-        {localSlotList.map((slot) => (
+        {slots.map((slot) => (
           <Line
             key={slot.slotID}
             id={slot.slotID}
             points={slot.points}
-            stroke={slot.status === 'Available' ? 'green' : 'red'}
+            stroke={slot.is_reserved === 0 ? 'green' : 'red'}
             closed
             onClick={handlePolygonClick}
           />

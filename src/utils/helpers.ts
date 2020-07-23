@@ -1,12 +1,14 @@
-import { Slot } from '../types/types';
+import { Slot, Status } from '../types/types';
 
 export const generateNewSlot = (
   slotID: string,
-  status: string,
+  is_reserved: Status,
+  is_occupied: Status,
   points: number[]
 ): Slot => ({
   slotID,
-  status,
+  is_reserved,
+  is_occupied,
   points
 });
 
