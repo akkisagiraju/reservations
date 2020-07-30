@@ -29,11 +29,12 @@ export interface Chair {
   is_reserved: Status;
   is_occupied: Status;
   is_active: boolean;
-
   details: ChairDetail[];
 }
 
 export interface ChairDetail {
+  PK: string;
+  SK: string;
   from: string;
   to: string;
   reserved: Status;

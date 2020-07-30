@@ -11,10 +11,10 @@ const Modal = styled.div`
   background-color: white;
   position: fixed;
   justify-self: center;
-  top: 30vh;
-  left: 35vw;
-  right: 35vw;
-  bottom: 30vh;
+  top: 25vh;
+  left: 30vw;
+  right: 30vw;
+  bottom: 25vh;
   z-index: 5;
   border-radius: 8px;
   max-height: calc(100% - 200px);

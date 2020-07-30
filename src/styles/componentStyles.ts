@@ -39,3 +39,21 @@ export const Button = styled.button`
   border-radius: 4px;
   box-shadow: 0px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
 `;
+
+export const Loader = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid #ccc;
+  border-top: 3px solid #8e44ad;
+  animation: spin 1s linear infinite;
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;

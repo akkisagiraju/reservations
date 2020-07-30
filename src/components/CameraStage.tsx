@@ -14,7 +14,7 @@ interface CameraStageProps {
   height: number;
   slots: Slot[];
   areSlotsDrawable?: boolean;
-  openModal: () => void;
+  openModal: (id: string) => void;
 }
 
 const CameraStage: React.FC<CameraStageProps> = ({
@@ -45,10 +45,6 @@ const CameraStage: React.FC<CameraStageProps> = ({
       </Container>
     );
   }
-
-  const openSlotBookingModal = (): void => {
-    openModal();
-  };
 
   const getMousePosition = (stage: StageItem): number[] => {
     const pointerPosition = stage.getPointerPosition() as Vector2d;
@@ -109,7 +105,7 @@ const CameraStage: React.FC<CameraStageProps> = ({
 
   const handlePolygonClick = async (event: KonvaEventObject<MouseEvent>) => {
     event.evt.preventDefault();
-    openSlotBookingModal();
+    openModal(event.target.attrs.id);
     // const targetSlotID = event.currentTarget.attrs.id;
     // const newSlotsAfterRemoval: Slot[] = localSlotList.filter(
     //   (slot) => slot.slotID !== targetSlotID
